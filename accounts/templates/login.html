@@ -45,18 +45,19 @@
         </div>
 
         <div class="bg-slate-900/40 sm:bg-slate-900/60 backdrop-blur-xl border-0 sm:border border-slate-800/80 rounded-2xl p-0 sm:p-8 shadow-xl">
+            {% include 'partials/alert.html' %}
             <form class="space-y-5" action="{% url 'login' %}" method="POST">
                 {% csrf_token %}
                 
                 <div>
-                    <label for="username" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Username or Email</label>
+                    <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">email or Email</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
-                        <input id="username" name="username" type="text" required autocomplete="username" 
+                        <input id="email" name="email" type="text" required autocomplete="email" 
                             class="block w-full pl-11 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all text-sm" 
                             placeholder="admin_user">
                     </div>

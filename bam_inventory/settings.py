@@ -146,3 +146,5 @@ MESSAGE_TAGS = {
     messages.ERROR: "bg-red-50 text-red-800 border-l-4 border-red-500 p-4 rounded-md shadow-sm",
     messages.INFO: "bg-blue-50 text-blue-800 border-l-4 border-blue-500 p-4 rounded-md shadow-sm",
 }
+
+AUTH_USER_MODEL = 'accounts.Account'
