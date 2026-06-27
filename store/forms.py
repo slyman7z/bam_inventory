@@ -67,17 +67,20 @@ class CustomerForm(forms.ModelForm):
         return phone
 
     def clean_phone2(self):
-        phone = self.cleaned_data.get('phone2')
-        if phone:
-            cleaned = ''.join(filter(str.isdigit, phone))
+        phone2 = self.cleaned_data.get('phone2')
+        if phone2:
+            cleaned = ''.join(filter(str.isdigit, phone2))
             if len(cleaned) < 10:
                 raise forms.ValidationError('Phone number must have at least 10 digits')
-        return phone
+        return phone2
 
+    
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if email:
-            # Check for duplicate emails
+        
+        # Only check for duplicates if the email is NOT blank or None
+        if email and email.strip(): 
             if Customer.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
                 raise forms.ValidationError('A customer with this email already exists')
+                
         return email
