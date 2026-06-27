@@ -1,0 +1,61 @@
+<!-- ======== ADD CATEGORY MODAL ======== -->
+<div id="addCategoryModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="categoryModalOverlay"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative bg-slate-900 border border-slate-800/50 rounded-2xl max-w-md w-full shadow-2xl shadow-black/50">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-800/50">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-50">Add New Category</h2>
+                        <p class="text-xs text-slate-400">Create a new product category</p>
+                    </div>
+                </div>
+                <button id="closeCategoryModal" class="p-2 rounded-lg hover:bg-slate-800/60 transition-colors">
+                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6">
+                <form id="addCategoryForm" method="post">
+                    {% csrf_token %}
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1.5">Category Name *</label>
+                            <input type="text" name="category_name" required class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all" placeholder="Enter category name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1.5">Description</label>
+                            <textarea name="category_description" rows="2" class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all resize-none" placeholder="Enter category description (optional)"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1.5">Parent Category</label>
+                            <select name="parent_category" class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all">
+                                <option value="">None (Top Level)</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="books">Books</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end gap-3 p-6 border-t border-slate-800/50 bg-slate-900/30 rounded-b-2xl">
+                <button id="closeCategoryModalBtn" class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-slate-200 transition-colors">Cancel</button>
+                <button type="submit" form="addCategoryForm" class="px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all shadow-lg shadow-blue-500/20">
+                    Add Category
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

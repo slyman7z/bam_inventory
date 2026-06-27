@@ -9,6 +9,11 @@ def customers(request):
     context = {'customers': customers}
     return render(request, 'customers.html', context)
 
+def customer_detail(request, pk):
+    customer = Customer.objects.get(id=pk)
+    context = {'customer': customer}
+    return render(request, 'customer_detail.html', context)
+
 
 def add_customer(request):
     if request.method == 'POST':
@@ -23,3 +28,14 @@ def add_customer(request):
     context = {'form': form}
     return render(request, 'add_customer.html', context)
 
+def product_management(request):
+    context = {}
+    return render(request, 'product_management.html', context)
+
+def add_product(request):
+    context = {}
+    return render(request, 'add_product.html', context)
+
+def add_category(request):
+    context = {}
+    return render(request, 'add_category.html', context)
