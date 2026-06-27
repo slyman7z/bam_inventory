@@ -44,10 +44,17 @@
             </nav>
 
             <div class="flex items-center gap-4">
-              
+                {% if user.is_authenticated %}
+                <a href="{% url 'login' %}" class="text-sm font-semibold bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-5 py-2 rounded-xl transition-all shadow-lg shadow-pink-600/20">
+                    Sign Out
+                </a>
+                {% else %}
                 <a href="{% url 'login' %}" class="text-sm font-semibold bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-5 py-2 rounded-xl transition-all shadow-lg shadow-pink-600/20">
                     Sign In
                 </a>
+                {% endif %}
+              
+
             </div>
         </div>
     </header>
@@ -68,7 +75,7 @@
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
-                    <a href="" class="flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-pink-600/10 transition-all">
+                    <a href="{% url 'dashboard' %}" class="flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-pink-600/10 transition-all">
                         <span>Dashboard</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                     </a>
