@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | StockPulse</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            900: '#50072b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="h-full font-sans antialiased bg-slate-950 flex flex-col overflow-hidden">
+
+    <!-- 1. TOP NAVBAR -->
+    {% include 'partials/header.html' %}
+
+    <!-- App Shell Wrapper Layout -->
+    <div class="flex flex-grow overflow-hidden relative">
+
+        <!-- 2. SIDEBAR BACKDROP (Mobile Only) -->
+        {% include 'partials/sidebar.html' %}
+
+        <!-- 4. MAIN DASHBOARD CONTENT -->
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    <!-- JavaScript for Mobile Sidebar Toggle & Live Timestamp -->
+    <script>
+        (function() {
+            // ----- mobile sidebar -----
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            const toggleBtn = document.getElementById('mobile-sidebar-toggle');
+            const closeBtn = document.getElementById('mobile-sidebar-close');
+
+            function openSidebar() {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+                backdrop.classList.add('opacity-100', 'pointer-events-auto');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeSidebar() {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+                backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                document.body.style.overflow = '';
+            }
+            if (toggleBtn) toggleBtn.addEventListener('click', openSidebar);
+            if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+            if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
+            // ----- live timestamp -----
+            function updateTimestamp() {
+                const el = document.getElementById('live-timestamp');
+                if (el) {
+                    const now = new Date();
+                    el.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                }
+            }
+            updateTimestamp();
+            setInterval(updateTimestamp, 30000);
+
+            // ----- CUSTOMER DATA -----
+            const customers = [
+                { name: 'Olivia Rhye', company: 'Acme Corp', email: 'olivia@acme.com', status: 'Active', spent: '$12,450' },
+                { name: 'Liam O\'Connor', company: 'Globex Ltd', email: 'liam@globex.com', status: 'Pending', spent: '$8,230' },
+                { name: 'Emma Chen', company: 'Initech LLC', email: 'emma@initech.com', status: 'Active', spent: '$5,900' },
+                { name: 'Noah Williams', company: 'Hooli', email: 'noah@hooli.com', status: 'Inactive', spent: '$2,100' },
+                { name: 'Sophia Kim', company: 'Stark Industries', email: 'sophia@stark.com', status: 'Active', spent: '$23,400' },
+                { name: 'Mason Garcia', company: 'Umbrella Corp', email: 'mason@umbrella.com', status: 'Active', spent: '$7,650' },
+                { name: 'Isabella Martinez', company: 'Cyberdyne', email: 'isabella@cyberdyne.com', status: 'Pending', spent: '$4,320' },
+                { name: 'Lucas Brown', company: 'Weyland-Yutani', email: 'lucas@weyland.com', status: 'Active', spent: '$9,875' },
+            ];
+
+            const tbody = document.getElementById('customer-table-body');
+            const searchInput = document.getElementById('customer-search');
+            const countSpan = document.getElementById('customer-count');
+
+            function renderTable(filter = '') {
+                const lowerFilter = filter.toLowerCase().trim();
+                const filtered = customers.filter(c => 
+                    c.name.toLowerCase().includes(lowerFilter) ||
+                    c.company.toLowerCase().includes(lowerFilter) ||
+                    c.email.toLowerCase().includes(lowerFilter)
+                );
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="px-5 py-8 text-center text-slate-500 text-sm">
+                                No customers found matching "<span class="text-slate-300">${filter}</span>"
+                            </td>
+                        </tr>
+                    `;
+                    countSpan.textContent = `Showing 0 customers`;
+                    return;
+                }
+
+                let html = '';
+                filtered.forEach(c => {
+                    const statusClass = c.status === 'Active' ? 'bg-emerald-500/20 text-emerald-300' :
+                                       c.status === 'Pending' ? 'bg-amber-500/20 text-amber-300' :
+                                       'bg-slate-500/20 text-slate-400';
+                    html += `
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="px-5 py-3.5 font-medium text-slate-200">${c.name}</td>
+                            <td class="px-5 py-3.5 text-slate-300 hidden md:table-cell">${c.company}</td>
+                            <td class="px-5 py-3.5 text-slate-400 hidden lg:table-cell">${c.email}</td>
+                            <td class="px-5 py-3.5">
+                                <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClass}">${c.status}</span>
+                            </td>
+                            <td class="px-5 py-3.5 text-right font-medium text-slate-200">${c.spent}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+                countSpan.textContent = `Showing ${filtered.length} of ${customers.length} customers`;
+            }
+
+            // initial render
+            renderTable('');
+
+            // search event
+            searchInput.addEventListener('input', (e) => {
+                renderTable(e.target.value);
+            });
+
+        })();
+    </script>
+
+</body>
+
+</html>

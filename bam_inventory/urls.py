@@ -9,6 +9,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('accounts/', include('accounts.urls') ),
+    path('store/', include('store.urls') ),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
