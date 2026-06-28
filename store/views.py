@@ -3,6 +3,8 @@ from .forms import CustomerForm
 from . models import Customer, Category, Product
 from django.contrib import messages
 import logging
+from django.db.models import Q
+from django.http import JsonResponse
 
 
 logger = logging.getLogger(__name__)
@@ -103,7 +105,23 @@ def sales_management(request):
     context = {}
     return render(request, 'sales_management.html', context)
 
+
 def add_order(request):
-    context = {}
-    return render(request, 'add_order.html', context)
+    search_query = request.GET.get('search_query', '').strip()
+    
+    if search_query:
+        customers = Customer.objects.filter(
+            Q(name__icontains=search_query) |
+            Q(phone1__icontains=search_query) |
+            Q(city__icontains=search_query)
+        ).distinct()
+    else:
+        customers = Customer.objects.none()
+
+    # Check if request expects JSON (AJAX)
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        data = list(customers.values('id', 'name', 'phone1', 'email'))
+        return JsonResponse({'customers': data}, safe=False)
+
+    return render(request, 'add_order.html', {'customers': customers, 'search_query': search_query})
 
