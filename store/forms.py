@@ -84,3 +84,6 @@ class CustomerForm(forms.ModelForm):
                 raise forms.ValidationError('A customer with this email already exists')
                 
         return email
+    
+
+# class  C

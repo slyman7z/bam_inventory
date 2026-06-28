@@ -24,6 +24,7 @@ class Customer(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
+    description = models.TextField(null=True, blank=True)
     
     def __str__(self):
         return self.name
@@ -32,25 +33,41 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
 
+
 class Product(models.Model):
     name = models.CharField(max_length=50)
-    price = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    description = models.CharField(max_length=250, default='', blank=True, null=True)
-    image = models.ImageField(upload_to='uploads/product/')
-    is_sale = models.BooleanField(default=False)
-    sale_price = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    
+    price = models.DecimalField(
+        default=0,
+        decimal_places=2,
+        max_digits=10
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE
+    )
+    description = models.CharField(
+        max_length=250,
+        default='',
+        blank=True,
+        null=True
+    )
+    image = models.ImageField(
+        upload_to='uploads/product/',
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        
-        img = Image.open(self.image.path)
-        if img.width > 300 or img.height > 300:
-            output = (320, 240)
-            img.thumbnail(output)
-            img.save(self.image.path)
+
+        if self.image:
+            img = Image.open(self.image.path)
+
+            if img.width > 300 or img.height > 300:
+                output_size = (320, 240)
+                img.thumbnail(output_size)
+                img.save(self.image.path)
 

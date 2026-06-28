@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import CustomerForm
-from . models import Customer
+from . models import Customer, Category, Product
 from django.contrib import messages
+import logging
+
+
+logger = logging.getLogger(__name__)
+
 
 # Create your views here.
 def customers(request):
@@ -14,7 +19,6 @@ def customer_detail(request, pk):
     context = {'customer': customer}
     return render(request, 'customer_detail.html', context)
 
-
 def add_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -23,19 +27,74 @@ def add_customer(request):
             messages.success(request, 'Customer record submitted successfully !!!')
             return redirect('customers') 
     else:
-        form = CustomerForm() # 👈 Only instantiate an empty form on GET requests
+        form = CustomerForm() 
 
     context = {'form': form}
     return render(request, 'add_customer.html', context)
 
 def product_management(request):
-    context = {}
+    products = Product.objects.all()
+    context = {'products' : products}
     return render(request, 'product_management.html', context)
 
 def add_product(request):
-    context = {}
+    categories = Category.objects.all()
+
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('name')
+            price = request.POST.get('price')
+            category_id = request.POST.get('category')
+            description = request.POST.get('description')
+            image = request.FILES.get('image')
+
+            category = Category.objects.get(id=category_id)
+
+            Product.objects.create(
+                name=name,
+                price=price,
+                category=category,
+                description=description,
+                image=image
+            )
+
+            messages.success(
+                request,
+                'Product record submitted successfully!'
+            )
+            return redirect('add_product')
+
+        except Exception as e:
+            logger.exception("Error creating product")
+            messages.error(request, f'Error: {e}')
+
+    context = {
+        'categories': categories
+    }
+
     return render(request, 'add_product.html', context)
 
 def add_category(request):
+    if request.method == 'POST':
+
+        try:
+            name = request.POST.get('name')
+            description = request.POST.get('description')
+
+            Category.objects.create(
+                name=name,
+                description=description
+            )
+
+            messages.success(
+                request,
+                'Category record submitted successfully!'
+            )
+            return redirect('add_category')
+
+        except Exception as e:
+            logger.exception("Error creating category")
+            messages.error(request, f'Error: {e}')
+
     context = {}
     return render(request, 'add_category.html', context)

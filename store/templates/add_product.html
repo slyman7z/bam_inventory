@@ -23,7 +23,8 @@
 
         <!-- Form Body -->
         <div class="p-6">
-            <form method="post" enctype="multipart/form-data">
+            {% include 'partials/alert.html' %}
+            <form method="post" action="{% url 'add_product' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="space-y-4">
                     <!-- Product Name -->
@@ -49,17 +50,16 @@
                             <select name="category" required
                                 class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-transparent transition-all">
                                 <option value="">Select Category</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="books">Books</option>
-                                <option value="food">Food & Beverages</option>
-                                <option value="other">Other</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{category}}</option>
+                                {% endfor %}
+
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-1.5">Price *</label>
                             <div class="relative">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">₦</span>
                                 <input type="number" name="price" step="0.01" required
                                     class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl pl-7 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-transparent transition-all"
                                     placeholder="0.00">
@@ -68,7 +68,7 @@
                     </div>
 
                     <!-- Stock & Compare Price Row -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-1.5">Stock Quantity *</label>
                             <input type="number" name="stock" required
@@ -84,7 +84,7 @@
                                     placeholder="0.00">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Product Image -->
                     <div>
@@ -104,7 +104,7 @@
                     </div>
 
                     <!-- Status -->
-                    <div>
+                    <!-- <div>
                         <label class="block text-sm font-medium text-slate-300 mb-1.5">Status</label>
                         <select name="status"
                             class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-transparent transition-all">
@@ -112,7 +112,7 @@
                             <option value="draft">Draft</option>
                             <option value="archived">Archived</option>
                         </select>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Form Actions -->
