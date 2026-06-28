@@ -98,3 +98,12 @@ def add_category(request):
 
     context = {}
     return render(request, 'add_category.html', context)
+
+def sales_management(request):
+    context = {}
+    return render(request, 'sales_management.html', context)
+
+def add_order(request):
+    context = {}
+    return render(request, 'add_order.html', context)
+

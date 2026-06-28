@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- MAIN DASHBOARD CONTENT -->
+<main class="flex-1 overflow-y-auto p-4 md:p-6 bg-slate-950/50">
+    {% include 'partials/alert.html' %}
+    
+    <!-- Page Header -->
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-50">Sales Management</h1>
+            <span class="px-3 py-1 text-xs font-medium rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                {{ orders|length|default:"0" }} Orders
+            </span>
+        </div>
+        <div class="flex items-center gap-2">
+            <!-- Export Button -->
+            <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-200 bg-slate-800/60 rounded-xl hover:bg-slate-800 transition-colors border border-slate-700/50">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Export
+            </button>
+            <!-- New Order Button -->
+            <a href = "{% url 'add_order' %}" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                </svg>
+                New Order
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <!-- Total Revenue -->
+        <div class="bg-slate-900/70 border border-slate-800/50 rounded-2xl p-4 backdrop-blur-sm shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Revenue</p>
+                    <p class="text-2xl font-bold text-emerald-400 mt-1">$24,850.00</p>
+                    <p class="text-xs text-emerald-400/70 mt-1">↑ 12.5% from last month</p>
+                </div>
+                <div class="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="bg-slate-900/70 border border-slate-800/50 rounded-2xl p-4 backdrop-blur-sm shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Orders</p>
+                    <p class="text-2xl font-bold text-blue-400 mt-1">1,247</p>
+                    <p class="text-xs text-blue-400/70 mt-1">↑ 8.3% from last month</p>
+                </div>
+                <div class="p-3 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Average Order Value -->
+        <div class="bg-slate-900/70 border border-slate-800/50 rounded-2xl p-4 backdrop-blur-sm shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Avg Order Value</p>
+                    <p class="text-2xl font-bold text-purple-400 mt-1">$199.32</p>
+                    <p class="text-xs text-purple-400/70 mt-1">↑ 3.7% from last month</p>
+                </div>
+                <div class="p-3 bg-purple-500/10 rounded-xl border border-purple-500/20">
+                    <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversion Rate -->
+        <div class="bg-slate-900/70 border border-slate-800/50 rounded-2xl p-4 backdrop-blur-sm shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Conversion Rate</p>
+                    <p class="text-2xl font-bold text-amber-400 mt-1">3.42%</p>
+                    <p class="text-xs text-amber-400/70 mt-1">↑ 0.8% from last month</p>
+                </div>
+                <div class="p-3 bg-amber-500/10 rounded-xl border border-amber-500/20">
+                    <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Chart & Top Products -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <!-- Sales Chart -->
+        <div class="lg:col-span-2 bg-slate-900/70 border border-slate-800/50 rounded-2xl p-4 backdrop-blur-sm shadow-lg">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-sm font-semibold text-slate-200">Sales Overview</h3>
+                <div class="flex items-center gap-2">
+                    <button class="px-2 py-1 text-xs font-medium rounded-lg bg-pink-500/20 text-pink-300">Weekly</button>
+                    <button class="px-2 py-1 text-xs font-medium rounded-lg hover:bg-slate-800/60 text-slate-400 hover:text-slate-200 transition-colors">Monthly</button>
+                    <button class="px-2 py-1 text-xs font-medium rounded-lg hover:bg-slate-800/60 text-slate-400 hover:text-slate-200 transition-colors">Yearly</button>
+                </div>
+            </div>
+            <!-- Chart Placeholder - Replace with actual chart library -->
+            <div class="h-64 bg-gradient-to-b from-slate-800/30 to-slate-900/30 rounded-xl flex items-center justify-center border border-slate-800/30">
+                <div class="text-center">
+                    <svg class="w-12 h-12 text-slate-600 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4m0 0l3 3m-3-3v12M3 3v18h18"></path>
+                    </svg>
+                    <p class="text-sm text-slate-400">Sales chart will render here</p>
+                    <p class="text-xs text-slate-500">Using Chart.js or similar library</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="bg-slate-900/70 border border-slate-800/50 rounded-2xl p-4 backdrop-blur-sm shadow-lg">
+            <h3 class="text-sm font-semibold text-slate-200 mb-4">Top Selling Products</h3>
+            <div class="space-y-3">
+                {% for product in top_products|default:"" %}
+                <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-800/40 transition-colors">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-slate-800/60 overflow-hidden">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-slate-200 truncate">{{ product.name|default:"Product Name" }}</p>
+                        <p class="text-xs text-slate-400">${{ product.price|default:"0.00" }} · {{ product.sold|default:"0" }} sold</p>
+                    </div>
+                    <div class="text-xs font-semibold text-emerald-400">{{ product.revenue|default:"$0" }}</div>
+                </div>
+                {% empty %}
+                <div class="text-center py-8">
+                    <p class="text-sm text-slate-400">No sales data available</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="bg-slate-900/70 border border-slate-800/50 rounded-2xl overflow-hidden backdrop-blur-sm shadow-lg">
+        <div class="px-4 py-3 border-b border-slate-800/50 flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-sm font-semibold text-slate-200">Recent Orders</h3>
+            <div class="flex items-center gap-2">
+                <select class="bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500/50">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <input type="text" placeholder="Search orders..." class="bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50">
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-slate-400 uppercase bg-slate-800/30 border-b border-slate-800/50">
+                    <tr>
+                        <th scope="col" class="px-4 py-3">Order ID</th>
+                        <th scope="col" class="px-4 py-3">Customer</th>
+                        <th scope="col" class="px-4 py-3">Products</th>
+                        <th scope="col" class="px-4 py-3">Total</th>
+                        <th scope="col" class="px-4 py-3">Date</th>
+                        <th scope="col" class="px-4 py-3">Status</th>
+                        <th scope="col" class="px-4 py-3 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders|default:"" %}
+                    <tr class="border-b border-slate-800/30 hover:bg-slate-800/30 transition-colors">
+                        <td class="px-4 py-3 font-medium text-slate-200">#{{ order.id|default:"0001" }}</td>
+                        <td class="px-4 py-3">
+                            <div>
+                                <div class="font-medium text-slate-200">{{ order.customer_name|default:"John Doe" }}</div>
+                                <div class="text-xs text-slate-400">{{ order.customer_email|default:"john@example.com" }}</div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="flex items-center gap-1">
+                                <span class="text-slate-300">{{ order.product_count|default:"3" }} items</span>
+                                <button class="text-xs text-pink-400 hover:text-pink-300 transition-colors">View</button>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 font-semibold text-emerald-400">${{ order.total|default:"0.00" }}</td>
+                        <td class="px-4 py-3 text-slate-300">{{ order.created_at|default:"2024-01-15" }}</td>
+                        <td class="px-4 py-3">
+                            {% if order.status == "completed" %}
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Completed</span>
+                            {% elif order.status == "processing" %}
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Processing</span>
+                            {% elif order.status == "pending" %}
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">Pending</span>
+                            {% elif order.status == "cancelled" %}
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-red-500/20 text-red-400 border border-red-500/30">Cancelled</span>
+                            {% else %}
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-slate-500/20 text-slate-400 border border-slate-500/30">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-right">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <button class="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 rounded-lg transition-colors" title="View Details">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                                <button class="p-1.5 text-slate-400 hover:text-blue-400 hover:bg-blue-500/20 rounded-lg transition-colors" title="Edit">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </button>
+                                <button class="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors" title="Delete">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <!-- Empty State -->
+                    <tr>
+                        <td colspan="7" class="px-4 py-12">
+                            <div class="text-center">
+                                <div class="inline-flex p-4 bg-slate-800/40 rounded-2xl border border-slate-700/30 mb-4">
+                                    <svg class="w-16 h-16 text-slate-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-slate-200 mb-2">No Orders Yet</h3>
+                                <p class="text-slate-400 mb-4">Start making sales by creating your first order</p>
+                                <button class="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/20">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Create First Order
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Table Footer -->
+        <div class="px-4 py-3 border-t border-slate-800/50 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+            <span>Showing 1-{{ orders|length|default:"0" }} of {{ orders|length|default:"0" }} orders</span>
+            <div class="flex items-center gap-1">
+                <button class="px-3 py-1.5 rounded-lg hover:bg-slate-800/60 transition-colors">Prev</button>
+                <button class="px-3 py-1.5 rounded-lg bg-pink-500/20 text-pink-300">1</button>
+                <button class="px-3 py-1.5 rounded-lg hover:bg-slate-800/60 transition-colors">2</button>
+                <button class="px-3 py-1.5 rounded-lg hover:bg-slate-800/60 transition-colors">3</button>
+                <button class="px-3 py-1.5 rounded-lg hover:bg-slate-800/60 transition-colors">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer note -->
+    <div class="mt-6 text-xs text-slate-500 text-center border-t border-slate-800/30 pt-4">
+        StockPulse v2 · Track and manage your sales efficiently.
+    </div>
+</main>
+
+{% endblock %}
