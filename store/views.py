@@ -106,7 +106,7 @@ def sales_management(request):
     return render(request, 'sales_management.html', context)
 
 
-def add_order(request):
+def new_order(request):
     search_query = request.GET.get('search_query', '').strip()
     
     if search_query:
@@ -123,5 +123,5 @@ def add_order(request):
         data = list(customers.values('id', 'name', 'phone1', 'email'))
         return JsonResponse({'customers': data}, safe=False)
 
-    return render(request, 'add_order.html', {'customers': customers, 'search_query': search_query})
+    return render(request, 'new_order.html', {'customers': customers, 'search_query': search_query})
 
