@@ -3,22 +3,29 @@
         <!-- Mobile Menu Toggle Button -->
         <button id="mobile-sidebar-toggle"
             class="p-2 -ml-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white md:hidden transition-colors">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
+            <a hreh="{% url 'home' %}">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </a>
+
+        </button>
         </button>
 
         <!-- Logo -->
-        <div class="flex items-center gap-2">
-            <div class="bg-pink-500/10 p-1.5 rounded-lg border border-pink-500/20">
-                <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                </svg>
+        <a href="{% url 'home' %}">
+            <div class="flex items-center gap-2">
+                <div class="bg-pink-500/10 p-1.5 rounded-lg border border-pink-500/20">
+                    <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                </div>
+                <span
+                    class="text-lg font-bold tracking-tight bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent hidden sm:block">BAM</span>
             </div>
-         <a href = "{% url 'home' %}" > <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent hidden sm:block">BAM</span> </a>
-        </div>
+        </a>
     </div>
 
     <!-- Right Side Nav Actions -->

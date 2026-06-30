@@ -1,5 +1,6 @@
 from django.db import models
 from PIL import Image
+import uuid
 
 
 
@@ -72,13 +73,15 @@ class Product(models.Model):
                 img.save(self.image.path)
 
 
-class Order(models.Model):
-    order_id = models.CharField(max_length=200, blank=True)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
     
+class Order(models.Model):
+    order_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
-        return self.order_id
+        return str(self.order_id)
+
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

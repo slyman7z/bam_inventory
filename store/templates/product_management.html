@@ -32,7 +32,7 @@
     </div>
 
     <!-- Filters & Search Bar -->
-    <div class="mb-6 flex flex-wrap items-center gap-3">
+    <!-- <div class="mb-6 flex flex-wrap items-center gap-3">
         <div class="flex-1 min-w-[200px]">
             <div class="relative">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
             </svg>
         </button>
-    </div>
+    </div> -->
 
     <!-- Products Table -->
     <div class="bg-slate-900/70 border border-slate-800/50 rounded-2xl overflow-hidden backdrop-blur-sm shadow-lg">
@@ -71,9 +71,9 @@
                         <th scope="col" class="px-4 py-3">Product</th>
                         <th scope="col" class="px-4 py-3">Category</th>
                         <th scope="col" class="px-4 py-3">Price</th>
-                        <th scope="col" class="px-4 py-3">Stock</th>
-                        <th scope="col" class="px-4 py-3">Status</th>
-                        <th scope="col" class="px-4 py-3 text-right">Actions</th>
+                        <!-- <th scope="col" class="px-4 py-3">Stock</th> -->
+                        <!-- <th scope="col" class="px-4 py-3">Status</th> -->
+                        <!-- <th scope="col" class="px-4 py-3 text-right">Actions</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -107,22 +107,19 @@
                         </td>
                         <!-- Price -->
                         <td class="px-4 py-3">
-                            <div class="font-semibold text-emerald-400">${{ product.price|default:"0.00" }}</div>
-                            {% if product.compare_price %}
-                            <div class="text-xs text-slate-500 line-through">${{ product.compare_price }}</div>
-                            {% endif %}
+                            <div class="font-semibold text-emerald-400"> ₦{{ product.price|default:"0.00" }}</div>
                         </td>
                         <!-- Stock -->
-                        <td class="px-4 py-3">
+                        <!-- <td class="px-4 py-3">
                             <div class="flex items-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
                                 <span class="text-slate-300">{{ product.stock|default:"0" }}</span>
                             </div>
-                        </td>
+                        </td> -->
                         <!-- Status -->
-                        <td class="px-4 py-3">
+                        <!-- <td class="px-4 py-3">
                             {% if product.stock > 0 %}
                             <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                                 In Stock
@@ -132,9 +129,9 @@
                                 Out of Stock
                             </span>
                             {% endif %}
-                        </td>
+                        </td> -->
                         <!-- Actions -->
-                        <td class="px-4 py-3 text-right">
+                        <!-- <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end gap-1.5">
                                 <button class="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 rounded-lg transition-colors" title="View">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -153,7 +150,7 @@
                                     </svg>
                                 </button>
                             </div>
-                        </td>
+                        </td> -->
                     </tr>
                     {% empty %}
                     <!-- Empty State -->

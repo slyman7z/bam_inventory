@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-950 text-slate-100 scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,19 +25,28 @@
         }
     </script>
 </head>
+
 <body class="flex flex-col min-h-full font-sans antialiased selection:bg-pink-500 selection:text-white">
 
     <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-900 px-4 sm:px-8 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2.5">
+                <a href="{% url 'home' %}"></a>
                 <div class="bg-pink-500/10 p-2 rounded-xl border border-pink-500/20">
-                    <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+
+                    <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                     </svg>
+
+
                 </div>
-                <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">BAM</span>
+                </a>
+                <span
+                    class="text-xl font-bold tracking-tight bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">BAM</span>
             </div>
-            
+
             <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
                 <a href="#features" class="hover:text-pink-400 transition-colors">Features</a>
                 <a href="#architecture" class="hover:text-pink-400 transition-colors">Tech Stack</a>
@@ -45,48 +55,58 @@
 
             <div class="flex items-center gap-4">
                 {% if user.is_authenticated %}
-                <a href="{% url 'login' %}" class="text-sm font-semibold bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-5 py-2 rounded-xl transition-all shadow-lg shadow-pink-600/20">
+                <a href="{% url 'login' %}"
+                    class="text-sm font-semibold bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-5 py-2 rounded-xl transition-all shadow-lg shadow-pink-600/20">
                     Sign Out
                 </a>
                 {% else %}
-                <a href="{% url 'login' %}" class="text-sm font-semibold bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-5 py-2 rounded-xl transition-all shadow-lg shadow-pink-600/20">
+                <a href="{% url 'login' %}"
+                    class="text-sm font-semibold bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-5 py-2 rounded-xl transition-all shadow-lg shadow-pink-600/20">
                     Sign In
                 </a>
                 {% endif %}
-              
+
 
             </div>
         </div>
     </header>
 
     <main class="flex-grow">
-        
-        <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-16 pb-20 lg:pt-28 lg:pb-32 grid lg:grid-cols-12 gap-12 items-center">
+
+        <section
+            class="max-w-7xl mx-auto px-4 sm:px-8 pt-16 pb-20 lg:pt-28 lg:pb-32 grid lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20">
+                <span
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20">
                     <span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span> BAM + Skin care
                 </span>
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-                    Inventory tracking, <br class="hidden sm:inline"/>
-                    <span class="bg-gradient-to-r from-pink-400 via-rose-400 to-amber-400 bg-clip-text text-transparent">Baths & More.</span>
+                    Inventory tracking, <br class="hidden sm:inline" />
+                    <span
+                        class="bg-gradient-to-r from-pink-400 via-rose-400 to-amber-400 bg-clip-text text-transparent">Baths
+                        & More.</span>
                 </h1>
                 <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                    A lightning-fast dashboard built to optimize stock control, automate low-stock triggers, and handle millions of data points seamlessly across desktop and mobile browsers.
+                    A lightning-fast dashboard built to optimize stock control, automate low-stock triggers, and handle
+                    millions of data points seamlessly across desktop and mobile browsers.
                 </p>
-                
+
                 <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
-                    <a href="{% url 'new_order' %}" class="flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-pink-600/10 transition-all">
+                    <a href="{% url 'new_order' %}"
+                        class="flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-pink-600/10 transition-all">
                         <span>New Order</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </a>
-                    <!-- <a href="#features" class="flex items-center justify-center bg-slate-900 border border-slate-800 hover:bg-slate-800/60 text-slate-300 font-medium py-3 px-6 rounded-xl transition-all">
-                        Explore Features
-                    </a> -->
+       
                 </div>
             </div>
 
             <div class="lg:col-span-5 relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-pink-500 to-rose-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-pink-500 to-rose-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000">
+                </div>
                 <div class="relative bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-2xl">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                         <div class="flex items-center gap-2">
@@ -96,21 +116,27 @@
                         </div>
                         <span class="text-xs text-slate-500 font-mono">live_inventory_feed</span>
                     </div>
-                    
+
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between p-3 bg-slate-950/60 border border-slate-800/50 rounded-xl">
+                        <div
+                            class="flex items-center justify-between p-3 bg-slate-950/60 border border-slate-800/50 rounded-xl">
                             <div>
                                 <p class="text-xs font-medium text-slate-400">SKU-90210</p>
                                 <p class="text-sm font-semibold text-white">Industrial Micro-Controllers</p>
                             </div>
-                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">1,420 Units</span>
+                            <span
+                                class="text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">1,420
+                                Units</span>
                         </div>
-                        <div class="flex items-center justify-between p-3 bg-slate-950/60 border border-slate-800/50 rounded-xl">
+                        <div
+                            class="flex items-center justify-between p-3 bg-slate-950/60 border border-slate-800/50 rounded-xl">
                             <div>
                                 <p class="text-xs font-medium text-slate-400">SKU-44312</p>
                                 <p class="text-sm font-semibold text-white">Fiber Optic Transceivers</p>
                             </div>
-                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-pink-500/10 text-pink-400 border border-pink-500/20">12 Low Stock</span>
+                            <span
+                                class="text-xs font-bold px-2.5 py-1 rounded bg-pink-500/10 text-pink-400 border border-pink-500/20">12
+                                Low Stock</span>
                         </div>
                     </div>
                 </div>
@@ -173,11 +199,15 @@
     </main>
 
     <footer id="architecture" class="border-t border-slate-900 bg-slate-950/40 px-4 sm:px-8 py-12">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left">
-            <p class="text-xs sm:text-sm text-slate-600">&copy; 2026 BAM App. Powered by yls . <span>&#x2764;&#xfe0f;</span></p> 
+        <div
+            class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left">
+            <p class="text-xs sm:text-sm text-slate-600">&copy; 2026 BAM App. Powered by yls .
+                <span>&#x2764;&#xfe0f;</span>
+            </p>
 
         </div>
     </footer>
 
 </body>
+
 </html>

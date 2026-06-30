@@ -14,16 +14,8 @@
                 </svg>
             </a>
             <h1 class="text-2xl font-bold tracking-tight text-slate-50">Create New Order</h1>
-            <span
-                class="px-3 py-1 text-xs font-medium rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20">
-                Draft
-            </span>
         </div>
         <div class="flex items-center gap-2">
-            <button
-                class="px-4 py-2 text-sm font-medium text-slate-200 bg-slate-800/60 rounded-xl hover:bg-slate-800 transition-colors border border-slate-700/50">
-                Save Draft
-            </button>
             <button
                 class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/20">
                 Create Order
@@ -52,6 +44,13 @@
                         <div
                             class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200">
                             {{ customer.name }}
+                        </div>
+                    </div>
+                                        <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1.5">Invoice Number</label>
+                        <div
+                            class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200">
+                            {{ order_id }}
                         </div>
                     </div>
 
@@ -94,33 +93,33 @@
 
                 <!-- Items Table -->
                 <div class="overflow-x-auto">
-                    {% if product %}
+                    {% if orders %}
                     <table class="w-full text-sm">
                         <thead class="text-xs text-slate-400 uppercase border-b border-slate-800/50">
                             <tr>
                                 <th class="px-3 py-2 text-left">Product</th>
                                 <th class="px-3 py-2 text-center">Price</th>
                                 <th class="px-3 py-2 text-center">Quantity</th>
-                                <th class="px-3 py-2 text-center">Total</th>
+                                <th class="px-3 py-2 text-center">Sub-Total</th>
                                 <th class="px-3 py-2 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Sample Item 1 -->
-                             
+                             {% for item in orders %}
                             <tr class="border-b border-slate-800/30">
                                 <td class="px-3 py-3">
                                     <div class="flex items-center gap-3">
                                         <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-slate-800/60 overflow-hidden">
-                                            <img src="#" alt="Product" class="w-full h-full object-cover">
+                                            <img src="#" alt="" class="w-full h-full object-cover">
                                         </div>
                                         <div>
-                                            <div class="font-medium text-slate-200">Wireless Headphones</div>
-                                            <div class="text-xs text-slate-400">Electronics</div>
+                                            <div class="font-medium text-slate-200">{{item.product.name}}</div>
+                                            <div class="text-xs text-slate-400">{{item.product.category}}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-3 py-3 text-center text-slate-300">$79.99</td>
+                                <td class="px-3 py-3 text-center text-slate-300">${{item.product.price}}</td>
                                 <td class="px-3 py-3 text-center">
                                     <div class="flex items-center justify-center gap-1">
                                         <button
@@ -131,7 +130,7 @@
                                                 </path>
                                             </svg>
                                         </button>
-                                        <input type="number" value="2"
+                                        <input type="number" value="{{item.quantity}}"
                                             class="w-12 text-center bg-slate-800/60 border border-slate-700/50 rounded-lg px-1 py-1 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500/50">
                                         <button
                                             class="p-1 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 rounded transition-colors">
@@ -143,7 +142,7 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td class="px-3 py-3 text-center font-semibold text-emerald-400">$159.98</td>
+                                <td class="px-3 py-3 text-center font-semibold text-emerald-400">₦{{item.sub_total}}</td>
                                 <td class="px-3 py-3 text-right">
                                     <button
                                         class="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors">
@@ -156,7 +155,7 @@
                                     </button>
                                 </td>
                             </tr>
-                            <!-- Sample Item 2 -->
+                            {% empty %}
 
                             <!-- Empty items message - hidden when items exist -->
                             <tr class="hidden">
@@ -164,6 +163,7 @@
                                     <p>No items added yet. Search and add products above.</p>
                                 </td>
                             </tr>
+                            {% endfor %}
                             
                         </tbody>
                     </table>
@@ -200,12 +200,6 @@
                         <span class="text-emerald-400">Free</span>
                     </div>
 
-                    <!-- Tax -->
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-400">Tax (8.5%)</span>
-                        <span class="text-slate-200">$30.51</span>
-                    </div>
-
                     <!-- Discount -->
                     <div class="flex justify-between text-sm">
                         <span class="text-slate-400">Discount</span>
@@ -217,13 +211,13 @@
 
                     <!-- Total -->
                     <div class="flex justify-between text-lg font-bold">
-                        <span class="text-slate-200">Total</span>
+                        <span class="text-slate-200">Grand Total</span>
                         <span class="text-emerald-400">$389.49</span>
                     </div>
                 </div>
 
                 <!-- Payment Method -->
-                <div class="mt-4">
+                <!-- <div class="mt-4">
                     <label class="block text-xs font-medium text-slate-400 mb-1.5">Payment Method *</label>
                     <select
                         class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500/50">
@@ -232,14 +226,14 @@
                         <option value="bank_transfer">Bank Transfer</option>
                         <option value="cash">Cash on Delivery</option>
                     </select>
-                </div>
+                </div> -->
 
                 <!-- Order Notes -->
-                <div class="mt-4">
+                <!-- <div class="mt-4">
                     <label class="block text-xs font-medium text-slate-400 mb-1.5">Order Notes</label>
                     <textarea rows="2" placeholder="Special instructions or notes..."
                         class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-transparent transition-all resize-none"></textarea>
-                </div>
+                </div> -->
 
                 <!-- Action Buttons -->
                 <div class="mt-4 space-y-2">
@@ -247,10 +241,10 @@
                         class="w-full px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all shadow-lg shadow-pink-500/20">
                         Create Order
                     </button>
-                    <button
+                    <!-- <button
                         class="w-full px-4 py-2.5 text-sm font-medium text-slate-200 bg-slate-800/60 rounded-xl hover:bg-slate-800 transition-colors border border-slate-700/50">
                         Save as Draft
-                    </button>
+                    </button> -->
                 </div>
             </div>
         </div>
@@ -258,7 +252,7 @@
 
     <!-- Footer note -->
     <div class="mt-6 text-xs text-slate-500 text-center border-t border-slate-800/30 pt-4">
-        StockPulse v2 · Create and manage orders efficiently.
+        BAM  · Create and manage orders efficiently.
     </div>
 </main>
 

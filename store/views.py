@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomerForm
-from . models import Customer, Category, Product, Order
+from . models import Customer, Category, Product, Order, OrderItem
 from django.contrib import messages
 import logging
 from django.db.models import Q
@@ -139,34 +139,91 @@ def new_order(request):
     return render(request, 'new_order.html', {'customers': customers, 'search_query': search_query})
 
 
-def _order_id(request):
-    if not request.session.session_key:
-        request.session.create()
-    return request.session.session_key
-
 
 def create_order(request, pk):
     customer = get_object_or_404(Customer, id=pk)
-    # Using the session key as an order identifier
-    order, _ = Order.objects.get_or_create(order_id=_order_id(request), customer=customer)
-
+    order = Order.objects.create(customer=customer)
     return redirect('add_order', pk=customer.id, order_id=order.order_id)
+
+
 
 
 def add_order(request, pk, order_id):
     customer = get_object_or_404(Customer, id=pk)
-    order_id = get_object_or_404(Order, order_id=order_id)
+    order = get_object_or_404(Order, order_id=order_id)
+    
     products = Product.objects.all()
-    
+
     if request.method == "POST":
-        # FIXED: Changed from () to .get()
-        product_id = request.POST.get('product') 
+        product_id = request.POST.get('product')
         
-        return HttpResponse(f"Product ID received: {product_id}")
+        
+        ordered_item, created = OrderItem.objects.get_or_create(
+            product_id=product_id,
+            order=order, 
+            defaults={
+                'quantity': 1,
+                'is_active': True
+            }
+        )
+
+        if not created:
+            ordered_item.quantity += 1
+            ordered_item.is_active = True
+            ordered_item.save()
+            
+        return redirect('add_order', pk=customer.id, order_id=order.order_id)
+
     
+    orders = OrderItem.objects.filter(order=order)
+
     context = {
         'customer': customer,
-        'order_id' : order_id,
-        'products': products
+        'order_id': order_id,
+        'products': products,
+        'orders': orders
     }
+
     return render(request, 'add_order.html', context)
+
+
+
+
+
+# def add_order(request, pk, order_id):
+#     customer = get_object_or_404(Customer, id=pk)
+#     order = get_object_or_404(Order, order_id=order_id)
+
+#     products = Product.objects.all()
+#     orders = OrderItem.objects.filter(order=order)
+
+#     ordered_item = None
+
+#     if request.method == "POST":
+#         product_id = request.POST.get('product')
+
+#         ordered_item, created = OrderItem.objects.get_or_create(
+#             product_id=product_id,
+#             order=order_id,
+#             defaults={
+#                 'quantity': 1,
+#                 'is_active': True
+#             }
+#         )
+
+#         if not created:
+#             ordered_item.quantity += 1
+#             ordered_item.is_active = True
+#             ordered_item.save()
+
+#     orders = OrderItem.objects.all()
+
+#     context = {
+#         'customer': customer,
+#         'order_id': order_id,
+#         'products': products,
+#         'ordered_item': ordered_item,
+#         'orders' : orders
+#     }
+
+#     return render(request, 'add_order.html', context)
