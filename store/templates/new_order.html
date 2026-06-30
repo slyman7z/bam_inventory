@@ -64,7 +64,6 @@
             <table class="w-full text-left border-collapse" id="customerTable">
                 <thead class="bg-slate-800/40 border-b border-slate-800/60">
                     <tr>
-                        <!-- Name column with user icon -->
                         <th class="text-left font-medium text-slate-400 px-5 py-3.5">
                             <div class="flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
@@ -75,7 +74,6 @@
                                 Name
                             </div>
                         </th>
-                        <!-- Phone column with phone icon -->
                         <th class="text-left font-medium text-slate-400 px-5 py-3.5">
                             <div class="flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
@@ -87,21 +85,8 @@
                                 Phone
                             </div>
                         </th>
-                        <!-- Email column with email icon -->
-                        <!-- <th class="text-left font-medium text-slate-400 px-5 py-3.5">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                Email
-                            </div>
-                        </th> -->
-                        <!-- Action column with settings/action icon -->
-                        <th class="text-left font-medium text-pink-400 px-5 py-3.5">
-                            <div class="flex items-center gap-2">
+                        <th class="text-right font-medium text-pink-400 px-5 py-3.5">
+                            <div class="flex items-right justify-start gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -138,24 +123,8 @@
                                 {{ customer.phone1 }}
                             </div>
                         </td>
-                        <!-- <td class="px-5 py-3.5 font-medium text-slate-200">
-                            <div class="flex items-center gap-2 group">
-                                <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor"
-                                    stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                <span>{{ customer.email }}</span>
-                                <span
-                                    class="inline-flex items-center justify-center p-1 rounded-lg bg-slate-800/50 hover:bg-pink-500/20 text-slate-400 hover:text-pink-400 transition-all duration-200 cursor-help"
-                                    title="Email: {{ customer.email }}">
-
-                                </span>
-                            </div>
-                        </td> -->
-                        <td class="px-5 py-3.5 font-medium text-slate-200">
-                            <a href="{% url 'customer_detail' customer.id %}"
+                        <td class="px-5 py-3.5 text-right">
+                            <a href="{% url 'create_order' customer.id %}"
                                 class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 hover:text-pink-300 rounded-lg text-xs font-medium transition-all border border-pink-500/10 hover:border-pink-500/30">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
@@ -171,7 +140,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6" class="px-6 py-16 text-center">
+                        <td colspan="3" class="px-6 py-16 text-center">
                             <div class="inline-flex p-4 bg-slate-800/40 rounded-2xl border border-slate-700/30 mb-4">
                                 <svg class="w-12 h-12 text-slate-600" fill="none" stroke="currentColor"
                                     stroke-width="1.5" viewBox="0 0 24 24">
@@ -211,7 +180,7 @@
     const tableBody = document.getElementById('customer-table-body');
     let debounceTimer;
 
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener('input', function () {
         clearTimeout(debounceTimer);
         const query = this.value;
 
@@ -222,24 +191,24 @@
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                tableBody.innerHTML = ''; // Clear older rows
-                
-                if (data.customers.length === 0) {
-                    tableBody.innerHTML = `
+                .then(response => response.json())
+                .then(data => {
+                    tableBody.innerHTML = ''; // Clear older rows
+
+                    if (data.customers.length === 0) {
+                        tableBody.innerHTML = `
                         <tr>
                             <td colspan="4" class="px-6 py-16 text-center">
                                 <h3 class="text-lg font-semibold text-slate-200 mb-1">No Customers Found</h3>
                             </td>
                         </tr>`;
-                    return;
-                }
+                        return;
+                    }
 
-                data.customers.forEach(customer => {
-                    const firstLetter = customer.name.charAt(0).toUpperCase();
-                    // Dynamically generate your beautiful template row structures
-                    const row = `
+                    data.customers.forEach(customer => {
+                        const firstLetter = customer.name.charAt(0).toUpperCase();
+                        // Dynamically generate your beautiful template row structures
+                        const row = `
                         <tr class="hover:bg-slate-800/30 transition-colors">
                             <td class="px-5 py-3.5 font-medium text-slate-200">
                                 <div class="flex items-center gap-2">
@@ -250,16 +219,16 @@
                                 </div>
                             </td>
                             <td class="px-5 py-3.5 text-slate-300">${customer.phone1 || ''}</td>
-                            <td class="px-5 py-3.5 text-slate-200">${customer.email || ''}</td>
+                            
                             <td class="px-5 py-3.5">
-                                <a href="/store/customer_detail/${customer.id}/" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-pink-500/10 text-pink-400 rounded-lg text-xs font-medium">
+                                <a href="/store/create_order/${customer.id}/" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 hover:text-pink-300 rounded-lg text-xs font-medium transition-all border border-pink-500/10 hover:border-pink-500/30">
                                     Create Order
                                 </a>
                             </td>
                         </tr>`;
-                    tableBody.insertAdjacentHTML('beforeend', row);
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
                 });
-            });
         }, 300);
     });
 

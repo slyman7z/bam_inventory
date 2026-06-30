@@ -1,26 +1,30 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomerForm
-from . models import Customer, Category, Product
+from . models import Customer, Category, Product, Order
 from django.contrib import messages
 import logging
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 logger = logging.getLogger(__name__)
 
 
 # Create your views here.
+@login_required(login_url='login')
 def customers(request):
     customers = Customer.objects.all()
     context = {'customers': customers}
     return render(request, 'customers.html', context)
 
+@login_required(login_url='login')
 def customer_detail(request, pk):
     customer = Customer.objects.get(id=pk)
     context = {'customer': customer}
     return render(request, 'customer_detail.html', context)
 
+@login_required(login_url='login')
 def add_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -39,6 +43,7 @@ def product_management(request):
     context = {'products' : products}
     return render(request, 'product_management.html', context)
 
+@login_required(login_url='login')
 def add_product(request):
     categories = Category.objects.all()
 
@@ -76,6 +81,7 @@ def add_product(request):
 
     return render(request, 'add_product.html', context)
 
+@login_required(login_url='login')
 def add_category(request):
     if request.method == 'POST':
 
@@ -106,6 +112,13 @@ def sales_management(request):
     return render(request, 'sales_management.html', context)
 
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from .models import Customer, Product, Order
+
+@login_required(login_url='login')
 def new_order(request):
     search_query = request.GET.get('search_query', '').strip()
     
@@ -125,3 +138,35 @@ def new_order(request):
 
     return render(request, 'new_order.html', {'customers': customers, 'search_query': search_query})
 
+
+def _order_id(request):
+    if not request.session.session_key:
+        request.session.create()
+    return request.session.session_key
+
+
+def create_order(request, pk):
+    customer = get_object_or_404(Customer, id=pk)
+    # Using the session key as an order identifier
+    order, _ = Order.objects.get_or_create(order_id=_order_id(request), customer=customer)
+
+    return redirect('add_order', pk=customer.id, order_id=order.order_id)
+
+
+def add_order(request, pk, order_id):
+    customer = get_object_or_404(Customer, id=pk)
+    order_id = get_object_or_404(Order, order_id=order_id)
+    products = Product.objects.all()
+    
+    if request.method == "POST":
+        # FIXED: Changed from () to .get()
+        product_id = request.POST.get('product') 
+        
+        return HttpResponse(f"Product ID received: {product_id}")
+    
+    context = {
+        'customer': customer,
+        'order_id' : order_id,
+        'products': products
+    }
+    return render(request, 'add_order.html', context)
