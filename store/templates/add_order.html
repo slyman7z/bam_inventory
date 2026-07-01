@@ -122,29 +122,29 @@
                                 <td class="px-3 py-3 text-center text-slate-300">${{item.product.price}}</td>
                                 <td class="px-3 py-3 text-center">
                                     <div class="flex items-center justify-center gap-1">
-                                        <button
+                                        <a href = "{% url 'decrease_order_quantity' customer.id order_id item.id %}"
                                             class="p-1 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 rounded transition-colors">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </a>
                                         <input type="number" value="{{item.quantity}}"
                                             class="w-12 text-center bg-slate-800/60 border border-slate-700/50 rounded-lg px-1 py-1 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500/50">
-                                        <button
+                                        <a href= "{% url 'increase_order_quantity' customer.id order_id item.id %}"
                                             class="p-1 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 rounded transition-colors">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </a>
                                     </div>
                                 </td>
                                 <td class="px-3 py-3 text-center font-semibold text-emerald-400">₦{{item.sub_total}}</td>
                                 <td class="px-3 py-3 text-right">
-                                    <button
+                                    <a href = "{% url 'remove_order_item' customer.id order_id item.id %}"
                                         class="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
                                             viewBox="0 0 24 24">

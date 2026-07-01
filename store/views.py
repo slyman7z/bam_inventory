@@ -187,43 +187,38 @@ def add_order(request, pk, order_id):
     return render(request, 'add_order.html', context)
 
 
+def increase_order_quantity(request, pk, order_id, item_id):
+    
+    ordered_item = get_object_or_404(OrderItem, order__order_id=order_id, id=item_id)
+    ordered_item.quantity += 1
+    ordered_item.is_active = True
+    ordered_item.save()
+    messages.success(request, 'order quantity increased successfully!')
+    return redirect('add_order', pk=pk, order_id=order_id)
 
 
+def decrease_order_quantity(request, pk, order_id, item_id):
+    
+    ordered_item = get_object_or_404(OrderItem, order__order_id=order_id, id=item_id)
+    
+    if ordered_item.quantity > 1:
+        ordered_item.quantity -= 1
+        ordered_item.is_active = True
+        ordered_item.save()
+        messages.success(request, 'Order quantity decreased successfully!')
+    else:
+        messages.error(request, 'Order quantity cannot be less than one. Please remove the item instead!')
+        
+    return redirect('add_order', pk=pk, order_id=order_id)
 
-# def add_order(request, pk, order_id):
-#     customer = get_object_or_404(Customer, id=pk)
-#     order = get_object_or_404(Order, order_id=order_id)
+def remove_order_item(request, pk, order_id, item_id):
+    try:
+        ordered_item = OrderItem.objects.get(order__order_id=order_id, id=item_id)
+        ordered_item.delete()
+        messages.success(request, 'Item removed from order successfully.')
+    except OrderItem.DoesNotExist:
+        messages.error(request, 'Item could not be found or was already deleted.')
+        
+    return redirect('add_order', pk=pk, order_id=order_id)
 
-#     products = Product.objects.all()
-#     orders = OrderItem.objects.filter(order=order)
 
-#     ordered_item = None
-
-#     if request.method == "POST":
-#         product_id = request.POST.get('product')
-
-#         ordered_item, created = OrderItem.objects.get_or_create(
-#             product_id=product_id,
-#             order=order_id,
-#             defaults={
-#                 'quantity': 1,
-#                 'is_active': True
-#             }
-#         )
-
-#         if not created:
-#             ordered_item.quantity += 1
-#             ordered_item.is_active = True
-#             ordered_item.save()
-
-#     orders = OrderItem.objects.all()
-
-#     context = {
-#         'customer': customer,
-#         'order_id': order_id,
-#         'products': products,
-#         'ordered_item': ordered_item,
-#         'orders' : orders
-#     }
-
-#     return render(request, 'add_order.html', context)

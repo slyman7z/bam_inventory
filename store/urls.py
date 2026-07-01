@@ -11,6 +11,11 @@ urlpatterns = [
     path('new_order/', views.new_order, name='new_order'),
     path('create_order/<str:pk>/', views.create_order, name='create_order'),
     path('add-order/<int:pk>/<uuid:order_id>/', views.add_order, name='add_order'),
+
+    path('customer/<int:pk>/order/<uuid:order_id>/item/<int:item_id>/increase/', views.increase_order_quantity, name='increase_order_quantity'),
+    path('customer/<int:pk>/order/<uuid:order_id>/item/<int:item_id>/decrease/', views.decrease_order_quantity, name='decrease_order_quantity'),
+    path('customer/<int:pk>/order/<uuid:order_id>/item/<int:item_id>/remove/', views.remove_order_item, name='remove_order_item'),
+
     path('add_product/', views.add_product, name='add_product'),
     path('add_category/', views.add_category, name='add_category'),
     
