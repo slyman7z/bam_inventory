@@ -176,12 +176,19 @@ def add_order(request, pk, order_id):
 
     
     orders = OrderItem.objects.filter(order=order)
+    sub_total = 0
+    quantity = 0
+    for item in orders:
+        sub_total += item.product.price * item.quantity
+        quantity += item.quantity
 
     context = {
         'customer': customer,
         'order_id': order_id,
         'products': products,
-        'orders': orders
+        'orders': orders,
+        'sub_total' : sub_total,
+        'quantity' : quantity
     }
 
     return render(request, 'add_order.html', context)
