@@ -77,10 +77,23 @@ class Product(models.Model):
 class Order(models.Model):
     order_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    discount = models.DecimalField(max_digits=5, decimal_places=0, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.order_id)
+    
+    @property
+    def sub_total(self):
+        return sum(item.sub_total for item in self.orderitem_set.all())
+
+    @property
+    def discount_amount(self):
+        return (self.sub_total * self.discount) / 100
+
+    @property
+    def grand_total(self):
+        return self.sub_total - self.discount_amount
 
 
 class OrderItem(models.Model):
@@ -88,7 +101,8 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     is_active = models.BooleanField(default=True)
-    
+
+    @property
     def sub_total(self):
         return self.product.price * self.quantity
     

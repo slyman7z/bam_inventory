@@ -6,6 +6,7 @@ import logging
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
+from decimal import Decimal
 
 
 logger = logging.getLogger(__name__)
@@ -111,13 +112,6 @@ def sales_management(request):
     context = {}
     return render(request, 'sales_management.html', context)
 
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from .models import Customer, Product, Order
-
 @login_required(login_url='login')
 def new_order(request):
     search_query = request.GET.get('search_query', '').strip()
@@ -156,7 +150,7 @@ def add_order(request, pk, order_id):
 
     if request.method == "POST":
         product_id = request.POST.get('product')
-        
+
         
         ordered_item, created = OrderItem.objects.get_or_create(
             product_id=product_id,
@@ -187,11 +181,32 @@ def add_order(request, pk, order_id):
         'order_id': order_id,
         'products': products,
         'orders': orders,
-        'sub_total' : sub_total,
-        'quantity' : quantity
+        'order' : order,
+        'sub_total' : order.sub_total,
+        'quantity' : quantity,
+        'discount_amount' : order.discount_amount,
+        'grand_total' : order.grand_total
     }
 
     return render(request, 'add_order.html', context)
+
+
+def apply_discount(request, pk, order_id):
+    order = get_object_or_404(Order, order_id=order_id)
+
+    if request.method == "POST":
+        discount = Decimal(request.POST.get("discount", 0))
+        if discount < 0:
+            discount = 0
+
+        if discount > 100:
+            discount = 100
+        
+        order.discount = discount
+        order.save()
+
+        
+    return redirect( 'add_order', pk=pk, order_id=order_id )
 
 
 def increase_order_quantity(request, pk, order_id, item_id):
